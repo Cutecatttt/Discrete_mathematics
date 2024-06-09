@@ -13,7 +13,7 @@ int main() {
         a[u].push_back({v,w});
     }
     for(int i = 1; i <= n; i++){
-        cout << i << " ";
+        cout << i << ": ";
         for(pair y : a[i]){
             cout << y.first << "-" << y.second << " ";
         }
