@@ -14,7 +14,7 @@ int main() {
         a[v].insert({u,w});
     }
     for(int i = 1; i <= n; i++){
-        cout << i << " ";
+        cout << i << ": ";
         for(pair y : a[i]){
             cout << y.first << "-" << y.second << " ";
         }
