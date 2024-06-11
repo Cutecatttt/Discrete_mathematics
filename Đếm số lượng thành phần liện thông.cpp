@@ -31,7 +31,9 @@ void connected(){
             ans++;
         }
     }
-    cout <<  ans;
+    cout << "Số thành phân liên thông của đồ thị là: " << ans;
+    if(ans == 1) cout << "\n--> Đồ thị liên thông";
+    else cout << "\n--> Đồ thị không liên thông";
 }
 
 int main() {
