@@ -15,26 +15,27 @@ void inp(){
     memset(visited, false, sizeof(visited));
 }
 
-void BFS(int u){
-    queue<int> q;
-    q.push(u);
+void DFS(int u){
     visited[u] = true;
-    while(!q.empty()){
-        int v = q.front();
-        q.pop();
-        cout << v << " ";
-        for(int x : a[v]){
-            if(!visited[x]){
-                q.push(x);
-                visited[x] = true;
-            }
+    for(int x : a[u]){
+        if(!visited[x]) DFS(x);
+    }
+}
+
+void connected(){
+    int ans = 0;
+    for(int i = 1; i <= n; i++){
+        memset(visited, false, sizeof(visited));
+        if(!visited[i]){
+            DFS(i);
+            ans++;
         }
     }
+    cout <<  ans;
 }
 
 int main() {
     inp();
-    BFS(1);
-
+    connected();
     return 0;
 }
