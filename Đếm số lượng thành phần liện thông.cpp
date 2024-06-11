@@ -24,7 +24,8 @@ void DFS(int u){
 
 void connected(){
     int ans = 0;
-    for(int i = 1; i < n; i++){
+    for(int i = 1; i <= n; i++){
+        memset(visited, false, sizeof(visited));
         if(!visited[i]){
             DFS(i);
             ans++;
