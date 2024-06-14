@@ -25,14 +25,17 @@ void prim(int u){
         int x, y;
         for(int i = 1; i <= n; i++){
             if(used[i]){
-                for(auto it : mp[i]){
-                    if(!used[it.second]){
-                        if(it.first < min){
-                            min = it.first;
-                            x = i; y = it.second;
-                            break;
+                auto it = mp[i].begin(); 
+                while(it != mp[i].end()){
+                    if(!used[(*it).second]){
+                        if((*it).first < min){
+                            min = (*it).first;
+                            x = i; y = (*it).second;
                         }
+                        break;
                     }
+                    mp[i].erase(mp[i].begin());
+                    it = mp[i].begin();
                 }
             }
         }
@@ -46,5 +49,6 @@ void prim(int u){
 int main() {
     inp();
     prim(1);
+    
     return 0;
 }
