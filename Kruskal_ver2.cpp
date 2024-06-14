@@ -2,53 +2,59 @@
 
 using namespace std;
 int n, m;
-multimap<int,int> mp[100005];
-bool used[100005];
+multimap<int,pair<int,int>> mp;
+int parent[100005], sz[100005];
 
 void inp(){
     cin >> n >> m;
-    for(int i = 0; i < m; i++){
+    for(int i = 0; i < m; i ++){
         int u, v, w; cin >> u >> v >> w;
-        mp[u].insert({w,v});
-        mp[v].insert({w,u});
+        mp.insert({w,{u,v}});
     }
-    memset(used, false, sizeof(used));
 }
 
-void prim(int u){
-    // Tạo cây khung rỗng
-    vector<pair<int,pair<int,int>>> mst;
-    int sum = 0;
-    used[u] = true; // đưa đỉnh u vào cây khung
-    while(mst.size() < n-1){
-        int min = INT_MAX;
-        int x, y;
-        for(int i = 1; i <= n; i++){
-            if(used[i]){
-                auto it = mp[i].begin(); 
-                while(it != mp[i].end()){
-                    if(!used[(*it).second]){
-                        if((*it).first < min){
-                            min = (*it).first;
-                            x = i; y = (*it).second;
-                        }
-                        break;
-                    }
-                    mp[i].erase(mp[i].begin());
-                    it = mp[i].begin();
-                }
-            }
-        }
-        mst.push_back({min,{x,y}});
-        sum +=  min;
-        used[y] = true;
+void make_set(){
+    for(int i = 1; i <= n; i++){
+        parent[i] = i;
+        sz[i] = 1;
     }
-    cout << sum;
+}
+
+int find(int u){
+    if(parent[u] == u) return u;
+    return parent[u] = find(parent[u]);
+}
+
+bool Union(int a ,int b){
+    a = find(a); b = find(b);
+    if(a == b) return false;
+    if(sz[a] < sz[b]) swap(a,b);
+    parent[b] = a;
+    sz[a] += sz[b];
+    return true;
+}
+
+void kruskal(){
+    multimap<int,pair<int,int>> mst;
+    int sum = 0;
+    auto it = mp.begin();
+    while(it != mp.end()){
+        if(mst.size() == n-1) break;
+        if(Union((*it).second.first, (*it).second.second)){
+            mst.insert(*it);
+            sum += (*it).first;
+        }
+        it++;
+    }
+    if(mst.size() < n-1)
+        cout << "Do thi khong lien thong";
+    else
+        cout << sum;
 }
 
 int main() {
     inp();
-    prim(1);
-    
+    make_set();
+    kruskal();
     return 0;
 }
